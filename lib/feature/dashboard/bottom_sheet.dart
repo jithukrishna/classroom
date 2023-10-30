@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Widget> pages = [
       StudentsList(),
       SubjectsList(),
-      ClassRooms(),
+      ClassRoomsScreen(),
 
     ];
     return IndexedStack(

@@ -924,6 +924,17 @@ class TextStyleClass {
       fontWeight: FontWeight.w700,
       color: ColorClass.slidetag);
 
+  static const TextStyle mainHeadingBlackSemi14 = TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: ColorClass.slidetag);
+  static const TextStyle mainHeadingBlackSemi18 = TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 18,
+      fontWeight: FontWeight.w700,
+      color: ColorClass.slidetag);
+
 
   static const TextStyle poppinsGrey13 = TextStyle(
     fontFamily: fontFamily,
