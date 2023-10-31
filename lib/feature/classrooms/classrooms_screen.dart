@@ -1,3 +1,4 @@
+import 'package:classroom/feature/classrooms/classroomdetails.dart';
 import 'package:classroom/feature/classrooms/model/classrooms.dart';
 import 'package:classroom/feature/classrooms/provider/classroom_provider.dart';
 import 'package:classroom/utilis/colour_class.dart';
@@ -56,7 +57,22 @@ class _ClassRoomsScreenState extends State<ClassRoomsScreen> {
                   );
                 },
                 itemCount: 100,
-              ) : snapshot.classroomsList == null ? Container(): ListView.builder(
+              ) : snapshot.classroomsList == null ? Container(
+                child: RefreshIndicator(child: Center(
+                  child: Text('No Data'),
+                ),onRefresh: () async {
+                  await Future.delayed(Duration(milliseconds: 1500));
+                  setState(() {
+                    ClassRoomsProvider classRoomsProvider =
+                    Provider.of<ClassRoomsProvider>(context, listen: false);
+
+                    Future.microtask(() {
+                      classRoomsProvider.getClassRoom(context);
+                    });
+                    //itemCount = itemCount + 1;
+                  });
+                },),
+              ): RefreshIndicator(child: ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(
                   parent: BouncingScrollPhysics(),
                 ),
@@ -79,12 +95,12 @@ class _ClassRoomsScreenState extends State<ClassRoomsScreen> {
                       children: [
                         InkWell(
                           onTap: (){
-                           /* Navigator.of(context).push(
+                            Navigator.of(context).push(
                               MaterialPageRoute<void>(
                                 builder: (BuildContext context) =>
-                                    StudentsDetails(students),
+                                    ClassRoomDetails(classrooms),
                               ),
-                            );*/
+                            );
                           },
                           child:  Container(
                             padding: const EdgeInsets.all(7.0),
@@ -111,34 +127,23 @@ class _ClassRoomsScreenState extends State<ClassRoomsScreen> {
                             ),
                           ),
                         )
-                        /*Container(
-                          padding: const EdgeInsets.all(7.0),
-                          width: double.infinity,
-                          child:Row(
-                            children: [
-                              const Text('Email : '),
-                              Text(students.email!,textAlign: TextAlign.start,style: TextStyleClass.darkGrey14Regular,)
-                            ],
-                          ),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(7.0),
-                          width: double.infinity,
-                          child:Row(
-                            children: [
-                              const Text('Age : '),
-                              Text(students.age!.toString(),textAlign: TextAlign.start,style: TextStyleClass.darkGrey14Regular,)
-                            ],
-                          ),
-                      ),*/
-
-
 
                       ],
                     ),
                   );
                 },
-              ),
+              ), onRefresh: () async {
+                await Future.delayed(Duration(milliseconds: 1500));
+                setState(() {
+                  ClassRoomsProvider classRoomsProvider =
+                  Provider.of<ClassRoomsProvider>(context, listen: false);
+
+                  Future.microtask(() {
+                    classRoomsProvider.getClassRoom(context);
+                  });
+                  //itemCount = itemCount + 1;
+                });
+              },)
 
             );
           }),);

@@ -21,6 +21,12 @@ class TextStyleClass {
       fontWeight: FontWeight.w700,
       color: ColorClass.white);
 
+  static const TextStyle mainHeadingBlueSemi22 = TextStyle(
+      fontFamily: fontFamily,
+      fontSize: 22,
+      fontWeight: FontWeight.w700,
+      color: ColorClass.blue);
+
   ///SIZE 30
   static const TextStyle novaBoldBlack30 = TextStyle(
       fontFamily: fontFamily,

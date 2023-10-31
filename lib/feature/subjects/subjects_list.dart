@@ -59,7 +59,7 @@ class _SubjectsListState extends State<SubjectsList> {
                   );
                 },
                 itemCount: 100,
-              ) : snapshot.subjects== null ? Container(): ListView.builder(
+              ) : snapshot.subjects== null ? Container(): RefreshIndicator(child: ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(
                   parent: BouncingScrollPhysics(),
                 ),
@@ -114,34 +114,23 @@ class _SubjectsListState extends State<SubjectsList> {
                             ),
                           ),
                         )
-                        /*Container(
-                          padding: const EdgeInsets.all(7.0),
-                          width: double.infinity,
-                          child:Row(
-                            children: [
-                              const Text('Email : '),
-                              Text(students.email!,textAlign: TextAlign.start,style: TextStyleClass.darkGrey14Regular,)
-                            ],
-                          ),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(7.0),
-                          width: double.infinity,
-                          child:Row(
-                            children: [
-                              const Text('Age : '),
-                              Text(students.age!.toString(),textAlign: TextAlign.start,style: TextStyleClass.darkGrey14Regular,)
-                            ],
-                          ),
-                      ),*/
-
-
-
                       ],
                     ),
                   );
                 },
-              ),
+              ), onRefresh: () async {
+                await Future.delayed(Duration(milliseconds: 1500));
+                setState(() {
+                  SubjectProvider subjectProvider =
+                  Provider.of<SubjectProvider>(context, listen: false);
+
+                  Future.microtask(() {
+                    log('###########');
+                    subjectProvider.getSubject(context);
+                  });
+                  //itemCount = itemCount + 1;
+                });
+              },)
 
             );
           }),);

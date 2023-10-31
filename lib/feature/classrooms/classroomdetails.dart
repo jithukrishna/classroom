@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/shimmerwidget.dart';
+import 'class_view_screen.dart';
+import 'conference_room.dart';
 
 
 
@@ -75,57 +77,7 @@ class _ClassRoomDetailsState extends State<ClassRoomDetails> {
               ) : snapshot.studentsDetails == null ? Container(
                 child: const Text('No Data'),
               ) :Center(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 50,
-                    ),
-                    Center(
-                      child: Container(
-                          width: 80.0,
-                          height: 80.0,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: ColorClass.primaryDark),
-                            color: ColorClass.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Text('${snapshot.studentsDetails.name![0]} ${snapshot.studentsDetails.name![snapshot.studentsDetails.name!.length-1]}',style: TextStyleClass.mainHeadingBlackSemi14,),
-                          )),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 30,right: 30,top: 20,bottom: 10),
-                      child: Row(
-                        children: [
-                          const Text('Name : '),
-                          Text(snapshot.studentsDetails.name!,style: TextStyleClass.mainHeadingBlackSemi18,),
-                        ],
-
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 30,right: 30,bottom: 10),
-                      child: Row(
-                        children: [
-                          const Text('Email : '),
-                          Text(snapshot.studentsDetails.email!,style: TextStyleClass.mainHeadingBlackSemi14,),
-                        ],
-
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 30,right: 30,bottom: 10),
-                      child: Row(
-                        children: [
-                          const Text('Age : '),
-                          Text(snapshot.studentsDetails.age!.toString(),style: TextStyleClass.mainHeadingBlackSemi14,),
-                        ],
-
-                      ),
-                    ),
-
-                  ],
-                ),
+                child: widget.classrooms.layout == 'classroom'?ClassRoomView(widget.classrooms.size!) : ConferenceRoom(widget.classrooms.size!),
               ),
 
 

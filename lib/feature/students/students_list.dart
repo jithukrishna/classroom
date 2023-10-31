@@ -58,7 +58,7 @@ class _StudentsListState extends State<StudentsList> {
                 );
               },
               itemCount: 100,
-            ) : snapshot.students == null ? Container(): ListView.builder(
+            ) : snapshot.students == null ? Container(): RefreshIndicator(child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
               ),
@@ -79,68 +79,56 @@ class _StudentsListState extends State<StudentsList> {
                   ),
                   child: Column(
                     children: [
-                     InkWell(
-                       onTap: (){
+                      InkWell(
+                        onTap: (){
                           Navigator.of(context).push(
-                           MaterialPageRoute<void>(
-                             builder: (BuildContext context) =>
-                                 StudentsDetails(students),
-                           ),
-                         );
-                       },
-                       child:  Container(
-                         padding: const EdgeInsets.all(7.0),
-                         width: double.infinity,
-                         child:Row(
-                           children: [
-                             Container(
-                                 width: 40.0,
-                                 height: 40.0,
-                                 decoration: BoxDecoration(
-                                   border: Border.all(color: ColorClass.primaryDark),
-                                   color: ColorClass.white,
-                                   shape: BoxShape.circle,
-                                 ),
-                                 child: Center(
-                                   child: Text('${students.name![0]} ${students.name![students.name!.length-1]}',style: TextStyleClass.mainHeadingBlackSemi14,),
-                                 )),
-                             SizedBox(
-                               width: 10,
-                             ),
-                             //const Text('Name : ',style: TextStyleClass.mainHeadingBlackSemi14,),
-                             Text(students.name!,textAlign: TextAlign.start,style: TextStyleClass.mainHeadingBlackSemi14,)
-                           ],
-                         ),
-                       ),
-                     )
-                      /*Container(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  StudentsDetails(students),
+                            ),
+                          );
+                        },
+                        child:  Container(
                           padding: const EdgeInsets.all(7.0),
                           width: double.infinity,
                           child:Row(
                             children: [
-                              const Text('Email : '),
-                              Text(students.email!,textAlign: TextAlign.start,style: TextStyleClass.darkGrey14Regular,)
+                              Container(
+                                  width: 40.0,
+                                  height: 40.0,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: ColorClass.primaryDark),
+                                    color: ColorClass.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                    child: Text('${students.name![0]} ${students.name![students.name!.length-1]}',style: TextStyleClass.mainHeadingBlackSemi14,),
+                                  )),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              //const Text('Name : ',style: TextStyleClass.mainHeadingBlackSemi14,),
+                              Text(students.name!,textAlign: TextAlign.start,style: TextStyleClass.mainHeadingBlackSemi14,)
                             ],
                           ),
-                      ),
-                      Container(
-                          padding: const EdgeInsets.all(7.0),
-                          width: double.infinity,
-                          child:Row(
-                            children: [
-                              const Text('Age : '),
-                              Text(students.age!.toString(),textAlign: TextAlign.start,style: TextStyleClass.darkGrey14Regular,)
-                            ],
-                          ),
-                      ),*/
-
-
-
+                        ),
+                      )
                     ],
                   ),
                 );
               },
-            ),
+            ), onRefresh: () async {
+              await Future.delayed(Duration(milliseconds: 1500));
+              setState(() {
+                StudentProvider studentProvider =
+                Provider.of<StudentProvider>(context, listen: false);
+
+                Future.microtask(() {
+                  studentProvider.getStudent(context);
+                });
+                //itemCount = itemCount + 1;
+              });
+            },)
 
           );
         }),);
